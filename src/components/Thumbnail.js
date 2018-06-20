@@ -5,20 +5,32 @@ import { css, StyleSheet } from 'aphrodite/no-important';
 import defaults from '../theme';
 import deepMerge from '../utils/deepMerge';
 
-function Thumbnail ({ index, src, thumbnail, active, onClick }, { theme }) {
+function Thumbnail ({ index, src, thumbnail, type, active, onClick }, { theme }) {
 	const url = thumbnail ? thumbnail : src;
 	const classes = StyleSheet.create(deepMerge(defaultStyles, theme));
-
+ 
 	return (
-		<div
-			className={css(classes.thumbnail, active && classes.thumbnail__active)}
-			onClick={(e) => {
-				e.preventDefault();
-				e.stopPropagation();
-				onClick(index);
-			}}
-			style={{ backgroundImage: 'url("' + url + '")' }}
-		/>
+		<div>
+		{type==='video' ? (
+			<div className={css(classes.thumbnail, active && classes.thumbnail__active)}>
+			  <video
+			  >
+				<source src={src + "#t=5"} type="video/mp4" />
+				Your browser does not support the video tag.
+			  </video>
+			</div>
+		  ) : 
+			<div
+				className={css(classes.thumbnail, active && classes.thumbnail__active)}
+				onClick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					onClick(index);
+				}}
+				style={{ backgroundImage: 'url("' + url + '")' }}
+			/>
+		}
+		</div>
 	);
 }
 

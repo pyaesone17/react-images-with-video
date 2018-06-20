@@ -138,6 +138,11 @@ render(
 			useForDemo,
 		}))} showThumbnails />
 
+		<h3>With Thumbnails Lah</h3>
+		<Gallery images={[
+			{ src: 'https://files.ss123h-stage.com/gigco/Y4jnF5KNTV-wGgbO8sfNkg/how-it-works.mp4#t=5', id: 111,caption: 'video', orientation: 'landscape', useForDemo: true}
+		]} showThumbnails />
+
 		<h3>Themed Lightbox</h3>
 		<Gallery images={THEMED_IMAGES.map(({ caption, id, orientation, useForDemo }) => ({
 			src: makeUnsplashSrc(id),
