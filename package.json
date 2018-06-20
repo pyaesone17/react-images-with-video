@@ -1,6 +1,6 @@
 {
   "name": "react-images-with-video",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "A simple, responsive lightbox component for displaying an array of images with React.js",
   "main": "lib/Lightbox.js",
   "jsnext:main": "dist/react-images.es.js",

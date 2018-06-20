@@ -51,26 +51,6 @@ theme.thumbnail = {
 	gutter: 2
 };
 
-// thumbnails
-theme.videothumbnail = {
-	activeBorderColor: 'white',
-	height: '85%',
-	cursor: 'pointer',
-	paddingLeft: '8px',
-	paddingRight: '8px',
-	overflow: 'hidden',
-	position: 'relative'
-};
-
-theme.videothumbnailvideo = {
-	position: 'absolute',
-	left: '50%',
-	top: '50%',
-	width: 'auto',
-	height: '100%',
-	transform: 'translate(-50%,-50%)'
-};
-
 // arrow
 theme.arrow = {
 	background: 'none',
@@ -594,27 +574,46 @@ function Thumbnail(_ref, _ref2) {
 	var index = _ref.index,
 	    src = _ref.src,
 	    thumbnail = _ref.thumbnail,
-	    type = _ref.type,
 	    active = _ref.active,
-	    _onClick = _ref.onClick;
+	    _onClick = _ref.onClick,
+	    type = _ref.type;
 	var theme$$1 = _ref2.theme;
 
 	var url = thumbnail ? thumbnail : src;
 	var classes = StyleSheet$1.create(deepMerge(defaultStyles$5, theme$$1));
 
-	return React.createElement(
-		'div',
-		null,
-		type === 'video' ? React.createElement(
+	if (type === 'video') {
+		return React.createElement(
 			'div',
-			{ className: css$1(classes.thumbnail, active && classes.thumbnail__active) },
+			{
+				className: css$1(classes.thumbnail, active && classes.thumbnail__active),
+				style: { zIndex: 99999, position: 'relative' },
+				onClick: function onClick(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					_onClick(index);
+				}
+			},
 			React.createElement(
 				'video',
-				null,
-				React.createElement('source', { src: src + "#t=5", type: 'video/mp4' }),
+				{
+					autoPlay: false,
+					style: {
+						cursor: 'pointer',
+						position: 'absolute',
+						left: '50%',
+						top: '50%',
+						width: 'auto',
+						height: '100%',
+						transform: 'translate(-50%,-50%)'
+					}
+				},
+				React.createElement('source', { src: src, type: 'video/mp4' }),
 				'Your browser does not support the video tag.'
 			)
-		) : React.createElement('div', {
+		);
+	} else {
+		return React.createElement('div', {
 			className: css$1(classes.thumbnail, active && classes.thumbnail__active),
 			onClick: function onClick(e) {
 				e.preventDefault();
@@ -622,8 +621,8 @@ function Thumbnail(_ref, _ref2) {
 				_onClick(index);
 			},
 			style: { backgroundImage: 'url("' + url + '")' }
-		})
-	);
+		});
+	}
 }
 
 Thumbnail.propTypes = {
@@ -1321,7 +1320,7 @@ var Lightbox = function (_Component) {
 						{ className: css(this.classes.content), style: { marginBottom: offsetThumbnails, maxWidth: width } },
 						imageLoaded && this.renderHeader(),
 						this.renderImages(),
-						this.renderSpinner(),
+						this.props.showSpinner && this.renderSpinner(),
 						imageLoaded && this.renderFooter()
 					),
 					imageLoaded && this.renderThumbnails(),
